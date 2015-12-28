@@ -1,0 +1,20 @@
+//
+//  PrefixHeader.pch
+//  Onlyou
+//
+//  Created by jiaguanglei on 15/11/25.
+//  Copyright © 2015年 roseonly. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIkit.h>
+
+#import "Define.h"
+
+#import "UIView+Extension.h"
+
+
+#endif /* PrefixHeader_pch */
