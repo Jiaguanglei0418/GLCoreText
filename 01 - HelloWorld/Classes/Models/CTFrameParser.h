@@ -14,7 +14,7 @@
 #import "CTFrameParseConfig.h"
 #import "CoreTextData.h"
 #import "CoreTextImageData.h"
-
+#import "CoreTextLinkData.h"
 @interface CTFrameParser : NSObject
 
 + (CoreTextData *)parseContent:(NSString *)content config:(CTFrameParseConfig *)config;

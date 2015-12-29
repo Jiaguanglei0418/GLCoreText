@@ -11,17 +11,27 @@
 #import "CTFrameParser.h"
 #import "UIView+Extension.h"
 
+#import "CTImageViewController.h"
+#import "CoreTextLinkData.h"
+#import "CTWebContentViewController.h"
+
 @interface ViewController ()
 @property (strong, nonatomic)CTDisplayView *ctView;
 
 @end
 
 @implementation ViewController
-
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor darkGrayColor];
     
-    self.ctView = [[CTDisplayView alloc] initWithFrame:CGRectMake(5, 20, PP_SCREEN_WIDTH - 10, PP_SCREEN_HIGHT * 0.5)];
+    [self setupNotifications];
+    
+    self.ctView = [[CTDisplayView alloc] initWithFrame:CGRectMake(0, 20, PP_SCREEN_WIDTH, PP_SCREEN_HIGHT)];
     
     [self.view addSubview:self.ctView];
     
@@ -40,10 +50,36 @@
     CoreTextData *data = [CTFrameParser parseTemplateFile:path config:config];
     self.ctView.data = data;
     self.ctView.height = data.height;
-    self.ctView.backgroundColor = [UIColor yellowColor];
+    self.ctView.backgroundColor = [UIColor lightGrayColor];
 
 }
+- (void)setupNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imagePressed:)
+                                                 name:CTDisplayViewImagePressNoticefication object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(linkPressed:)
+                                                 name:CTDisplayViewLinkPressNoticefication object:nil];
+    
+}
 
+- (void)imagePressed:(NSNotification*)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    CoreTextImageData *imageData = userInfo[@"imageData"];
+    
+    CTImageViewController *vc = [[CTImageViewController alloc] init];
+    vc.image = [UIImage imageNamed:imageData.name];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)linkPressed:(NSNotification*)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    CoreTextLinkData *linkData = userInfo[@"linkData"];
+    LogYellow(@"linkdata -  %@", linkData);
+    
+    CTWebContentViewController *vc = [[CTWebContentViewController alloc] init];
+    vc.urlTitle = linkData.title;
+    vc.url = linkData.url;
+    [self presentViewController:vc animated:YES completion:nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

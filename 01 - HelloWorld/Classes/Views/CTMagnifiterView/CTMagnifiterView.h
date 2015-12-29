@@ -11,6 +11,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CTMagnifiterView : UIView
-@property (strong, nonatomic) UIImageView *viewToMagnify;
+@property (strong, nonatomic) UIView *viewToMagnify;
 @property (assign, nonatomic) CGPoint touchPoint;
 @end

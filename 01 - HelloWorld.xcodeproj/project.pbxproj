@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		922D00A41C3151400071AEF3 /* CTWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 922D00A31C3151400071AEF3 /* CTWebContentViewController.m */; };
 		92587BF81C2BF8B700FA6D4E /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 92587BF71C2BF8B700FA6D4E /* UIView+Extension.m */; };
 		9275425E1C2A99B700E14DE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9275425D1C2A99B700E14DE0 /* main.m */; };
 		927542671C2A99B700E14DE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 927542651C2A99B700E14DE0 /* Main.storyboard */; };
@@ -24,9 +25,14 @@
 		92BAE1661C2D2602003A3876 /* coretext-image-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92BAE1651C2D2602003A3876 /* coretext-image-1.jpg */; };
 		92BAE1681C2D2607003A3876 /* coretext-image-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92BAE1671C2D2607003A3876 /* coretext-image-2.jpg */; };
 		92BB54E51C310656005829EF /* CTMagnifiterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BB54E41C310656005829EF /* CTMagnifiterView.m */; };
+		92BB54E81C3117DC005829EF /* CoreTextLinkData.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BB54E71C3117DC005829EF /* CoreTextLinkData.m */; };
+		92BB54EB1C311878005829EF /* CoreTextUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BB54EA1C311878005829EF /* CoreTextUtils.m */; };
+		92BB54EE1C314A36005829EF /* CTImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BB54ED1C314A36005829EF /* CTImageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		922D00A21C3151400071AEF3 /* CTWebContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTWebContentViewController.h; sourceTree = "<group>"; };
+		922D00A31C3151400071AEF3 /* CTWebContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTWebContentViewController.m; sourceTree = "<group>"; };
 		92587BF61C2BF8B700FA6D4E /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		92587BF71C2BF8B700FA6D4E /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		927542591C2A99B700E14DE0 /* 01 - HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "01 - HelloWorld.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +64,12 @@
 		92BAE1671C2D2607003A3876 /* coretext-image-2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "coretext-image-2.jpg"; sourceTree = "<group>"; };
 		92BB54E31C310656005829EF /* CTMagnifiterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTMagnifiterView.h; sourceTree = "<group>"; };
 		92BB54E41C310656005829EF /* CTMagnifiterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMagnifiterView.m; sourceTree = "<group>"; };
+		92BB54E61C3117DC005829EF /* CoreTextLinkData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreTextLinkData.h; sourceTree = "<group>"; };
+		92BB54E71C3117DC005829EF /* CoreTextLinkData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreTextLinkData.m; sourceTree = "<group>"; };
+		92BB54E91C311878005829EF /* CoreTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreTextUtils.h; sourceTree = "<group>"; };
+		92BB54EA1C311878005829EF /* CoreTextUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreTextUtils.m; sourceTree = "<group>"; };
+		92BB54EC1C314A36005829EF /* CTImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageViewController.h; sourceTree = "<group>"; };
+		92BB54ED1C314A36005829EF /* CTImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +150,10 @@
 			children = (
 				927E5E2B1C2BD77C004B39B8 /* ViewController.h */,
 				927E5E2C1C2BD77C004B39B8 /* ViewController.m */,
+				92BB54EC1C314A36005829EF /* CTImageViewController.h */,
+				92BB54ED1C314A36005829EF /* CTImageViewController.m */,
+				922D00A21C3151400071AEF3 /* CTWebContentViewController.h */,
+				922D00A31C3151400071AEF3 /* CTWebContentViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -190,6 +206,10 @@
 				927E5E421C2BDDB3004B39B8 /* CoreTextImageData.m */,
 				927E5E441C2BDDDE004B39B8 /* CoreTextData.h */,
 				927E5E451C2BDDDE004B39B8 /* CoreTextData.m */,
+				92BB54E61C3117DC005829EF /* CoreTextLinkData.h */,
+				92BB54E71C3117DC005829EF /* CoreTextLinkData.m */,
+				92BB54E91C311878005829EF /* CoreTextUtils.h */,
+				92BB54EA1C311878005829EF /* CoreTextUtils.m */,
 			);
 			path = CoreTextData;
 			sourceTree = "<group>";
@@ -286,16 +306,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				92587BF81C2BF8B700FA6D4E /* UIView+Extension.m in Sources */,
+				92BB54EB1C311878005829EF /* CoreTextUtils.m in Sources */,
 				927E5E431C2BDDB3004B39B8 /* CoreTextImageData.m in Sources */,
+				922D00A41C3151400071AEF3 /* CTWebContentViewController.m in Sources */,
 				927E5E4A1C2BF292004B39B8 /* CTDisplayView.m in Sources */,
 				927E5E461C2BDDDE004B39B8 /* CoreTextData.m in Sources */,
 				92BB54E51C310656005829EF /* CTMagnifiterView.m in Sources */,
 				927E5E371C2BD77C004B39B8 /* RODisplayView.m in Sources */,
+				92BB54EE1C314A36005829EF /* CTImageViewController.m in Sources */,
 				927E5E3A1C2BD7DF004B39B8 /* CTFrameParseConfig.m in Sources */,
 				927E5E361C2BD77C004B39B8 /* AppDelegate.m in Sources */,
 				9275425E1C2A99B700E14DE0 /* main.m in Sources */,
 				927E5E351C2BD77C004B39B8 /* ViewController.m in Sources */,
 				927E5E3F1C2BDCCC004B39B8 /* CTFrameParser.m in Sources */,
+				92BB54E81C3117DC005829EF /* CoreTextLinkData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
