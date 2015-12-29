@@ -264,7 +264,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     return NO;
 }
 
-#pragma mark - 显示选中文本操作
+#pragma mark - 显示文本操作菜单
 - (void)showMenuController
 {
     if([self becomeFirstResponder]){
@@ -357,6 +357,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 
 
 #pragma mark - panGestureDetected
+// 放大镜视图中, 调整选中范围
 - (void)panGestureDetected:(UITapGestureRecognizer *)pan
 {
     if (self.state == CTDisplayViewStateNormal) {
@@ -401,6 +402,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     [self setNeedsDisplay];
 }
 
+// 移除放大镜
 - (void)removeMagnifiterView
 {
     if (_magnifiterView) {
@@ -462,6 +464,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
 }
 
+// 渲染 选中文本内容
 - (void)drawSelectionArea {
     if (_selectionStartPosition < 0 || _selectionEndPosition > self.data.content.length) {
         return;
@@ -518,6 +521,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 
 - (void)fillSelectionAreaInRect:(CGRect)rect {
     UIColor *bgColor = PPCOLOR_RGB(204, 221, 236);
+//    UIColor *bgColor = [UIColor redColor];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, bgColor.CGColor);
     CGContextFillRect(context, rect);

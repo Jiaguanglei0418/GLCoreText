@@ -12,7 +12,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectMake(0, 0, 80, 80)];
     if (self) {
         // 设置边框
         self.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -29,7 +29,7 @@
     _touchPoint = touchPoint;
     
     // 更新放大镜位置
-    self.center = CGPointMake(touchPoint.x, touchPoint.y - 70);
+    self.center = CGPointMake(touchPoint.x, touchPoint.y -70);
     [self setNeedsDisplay];
 }
 
@@ -37,7 +37,7 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, self.width * 0.5, self.height * 0.5);
-    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextScaleCTM(context, 1.5, 1.5);
     CGContextTranslateCTM(context, -1 * (_touchPoint.x), -1 * (_touchPoint.y));
     [self.viewToMagnify.layer renderInContext:context];
     
