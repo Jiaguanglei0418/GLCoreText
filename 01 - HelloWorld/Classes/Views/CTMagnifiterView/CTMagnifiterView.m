@@ -15,7 +15,7 @@
     self = [super initWithFrame:CGRectMake(0, 0, 80, 80)];
     if (self) {
         // 设置边框
-        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
         self.layer.borderWidth = 1;
         self.layer.cornerRadius = 40;
         self.layer.masksToBounds = YES;

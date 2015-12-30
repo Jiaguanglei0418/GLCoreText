@@ -17,10 +17,9 @@
     if (idx == -1) {
         return nil;
     }
-    
-    LogYellow(@"dataLinkArray = %@", data.linkArray);
+
     CoreTextLinkData *fountLink = [self linkAtIndex:idx linkArray:data.linkArray];
-    
+
     return fountLink;
 }
 
@@ -65,7 +64,7 @@
 
 /**
  *      获得每一行的CGRect信息
- * */
+ */
 + (CGRect)getLineBounds:(CTLineRef)line point:(CGPoint)point
 {
     CGFloat ascent = 0.0f;
@@ -76,17 +75,27 @@
     return CGRectMake(point.x, point.y - descent, width, height);
 }
 
-
-+ (CoreTextLinkData *)linkAtIndex:(CFIndex)idx linkArray:(NSArray *)linkArray
-{
++ (CoreTextLinkData *)linkAtIndex:(CFIndex)i linkArray:(NSArray *)linkArray {
     CoreTextLinkData *link = nil;
     for (CoreTextLinkData *data in linkArray) {
-        if (NSLocationInRange(idx, data.range)) {
+        if (NSLocationInRange(i, data.range)) {
             link = data;
             break;
         }
     }
     return link;
 }
+
+//+ (CoreTextLinkData *)linkAtIndex:(CFIndex)idx linkArray:(NSArray *)linkArray
+//{
+//    CoreTextLinkData *link = nil;
+//    for (CoreTextLinkData *data in linkArray) {
+//        if (NSLocationInRange(idx, data.range)) {
+//            link = data;
+//            break;
+//        }
+//    }
+//    return link;
+//}
 
 @end

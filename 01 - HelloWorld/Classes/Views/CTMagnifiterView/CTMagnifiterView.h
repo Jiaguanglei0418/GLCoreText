@@ -11,6 +11,12 @@
 #import <UIKit/UIKit.h>
 
 @interface CTMagnifiterView : UIView
+/**
+ *  显示放大信息
+ */
 @property (weak, nonatomic) UIView *viewToMagnify;
+/**
+ *  记录屏幕中点击位置
+ */
 @property (assign, nonatomic) CGPoint touchPoint;
 @end

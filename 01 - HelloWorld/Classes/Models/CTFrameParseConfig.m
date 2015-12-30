@@ -16,7 +16,7 @@
         _width = 200.0f;
         _fontSize = 16.0f;
         _lineSpace = 10.0f;
-        _textColor = PPCOLOR_RGB(108, 108, 108);
+        _textColor = [UIColor blackColor];
     }
     return self;
 }

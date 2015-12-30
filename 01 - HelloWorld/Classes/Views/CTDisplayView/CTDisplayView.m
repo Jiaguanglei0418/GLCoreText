@@ -220,6 +220,8 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
         }
         
         CoreTextLinkData *linkData = [CoreTextUtils touchLinkInView:self atPoint:point data:self.data];
+      
+        
         if (linkData) {
             LogYellow(@"点击了链接");
             NSDictionary *userInfo = @{@"linkData" : linkData};

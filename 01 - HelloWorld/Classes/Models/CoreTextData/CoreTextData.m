@@ -52,7 +52,7 @@
         return;
     }
     
-    //
+    // 根据frame, 获取CTline --- 行数
     NSArray *lines = (NSArray *)CTFrameGetLines(self.ctFrame);
     NSUInteger lineCount = [lines count];
     CGPoint lineOrigins[lineCount];
@@ -66,6 +66,7 @@
             break;
         }
         CTLineRef line = (__bridge CTLineRef)(lines[i]);
+        // 根据line, 获取每行具体内容;
         NSArray *runObjArray = (NSArray *)CTLineGetGlyphRuns(line);
         for (id runObj in runObjArray) {
             CTRunRef run = (__bridge CTRunRef)(runObj);
@@ -103,7 +104,6 @@
                 break;
             }else{
                 imageData = self.imageArray[imgIndex];
-                LogGreen(@"%@", imageData);
             }
         }
     }

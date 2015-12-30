@@ -16,50 +16,71 @@
 #import "CTWebContentViewController.h"
 
 @interface ViewController ()
-@property (strong, nonatomic)CTDisplayView *ctView;
-
+@property (weak, nonatomic)CTDisplayView *ctView;
 @end
 
 @implementation ViewController
+/**
+ *  设置状态栏样式
+ */
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
+
+
+- (CTDisplayView *)ctView
+{
+    if (!_ctView) {
+        CTDisplayView *ctView = [[CTDisplayView alloc] init];
+        ctView.backgroundColor = [UIColor lightGrayColor];
+        [self.view addSubview:ctView];
+        _ctView = ctView;
+    }
+    return _ctView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.view.backgroundColor = [UIColor redColor];
+
+    self.ctView.frame = CGRectMake(0, 0, PP_SCREEN_WIDTH, PP_SCREEN_HIGHT - 20);
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
+////    self.extendedLayoutIncludesOpaqueBars = NO;
     
+    // 0 注册通知
     [self setupNotifications];
-    
-    self.ctView = [[CTDisplayView alloc] initWithFrame:CGRectMake(0, 20, PP_SCREEN_WIDTH, PP_SCREEN_HIGHT)];
-    
-    [self.view addSubview:self.ctView];
-    
-    
     
     // 1. 配置参数
     CTFrameParseConfig *config = [[CTFrameParseConfig alloc] init];
     config.width = self.ctView.width;
     config.textColor = [UIColor blackColor];
     
-    
-    // 1.1 从文件中读取配置
+    // 1.1 从文件中读取
     NSString *path = [[NSBundle mainBundle] pathForResource:@"content" ofType:@"json"];
     
     // 2. 
     CoreTextData *data = [CTFrameParser parseTemplateFile:path config:config];
     self.ctView.data = data;
     self.ctView.height = data.height;
-    self.ctView.backgroundColor = [UIColor lightGrayColor];
+}
 
-}
+
+/**
+ *  注册通知
+ */
 - (void)setupNotifications {
+    // 监听点击图片
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imagePressed:)
-                                                 name:CTDisplayViewImagePressNoticefication object:nil];
+                                                 name:CTDisplayViewImagePressNoticefication
+                                               object:nil];
+    // 监听点击链接
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(linkPressed:)
-                                                 name:CTDisplayViewLinkPressNoticefication object:nil];
-    
+                                                 name:CTDisplayViewLinkPressNoticefication
+                                               object:nil];
 }
+
 
 - (void)imagePressed:(NSNotification*)notification {
     NSDictionary *userInfo = [notification userInfo];
@@ -80,6 +101,8 @@
     vc.url = linkData.url;
     [self presentViewController:vc animated:YES completion:nil];
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

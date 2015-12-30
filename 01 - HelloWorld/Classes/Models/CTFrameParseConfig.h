@@ -14,9 +14,21 @@
 
 @interface CTFrameParseConfig : NSObject
 
+/**
+ *  CTDisplayView - width
+ */
 @property (nonatomic, assign) CGFloat width;
+/**
+ *  显示的text 字号大小
+ */
 @property (nonatomic, assign) CGFloat fontSize;
+/**
+ *  显示text 行距
+ */
 @property (nonatomic, assign) CGFloat lineSpace;
+/**
+ *  显示text 颜色
+ */
 @property (nonatomic, strong) UIColor *textColor;
 
 

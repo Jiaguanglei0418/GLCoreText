@@ -10,7 +10,13 @@
 
 @interface CoreTextImageData : NSObject
 
+/**
+ *  图片名称
+ */
 @property (strong, nonatomic) NSString * name;
+/**
+ *  图片的个数
+ */
 @property (nonatomic, assign) NSInteger position;
 
 // 此坐标是 CoreText 的坐标系，而不是UIKit的坐标系

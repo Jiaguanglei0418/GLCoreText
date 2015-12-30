@@ -10,8 +10,16 @@
 
 @interface CoreTextLinkData : NSObject
 
+/**
+ *  链接名称 -- 载体
+ */
 @property (copy, nonatomic) NSString *title;
+/**
+ *  链接url
+ */
 @property (copy, nonatomic) NSString *url;
-
+/**
+ *  链接文字的range
+ */
 @property (assign, nonatomic) NSRange range;
 @end

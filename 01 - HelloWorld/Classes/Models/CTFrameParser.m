@@ -10,16 +10,18 @@
 
 @implementation CTFrameParser
 
-
-static CGFloat ascentCallback(void *ref){
+/**
+ *  内联函数  --- 编译的时候效率更快
+ **/
+static inline CGFloat ascentCallback(void *ref){
     return [(NSNumber*)[(__bridge NSDictionary*)ref objectForKey:@"height"] floatValue];
 }
 
-static CGFloat descentCallback(void *ref){
+static inline CGFloat descentCallback(void *ref){
     return 0;
 }
 
-static CGFloat widthCallback(void* ref){
+static inline CGFloat widthCallback(void* ref){
     return [(NSNumber*)[(__bridge NSDictionary*)ref objectForKey:@"width"] floatValue];
 }
 
@@ -37,8 +39,10 @@ static CGFloat widthCallback(void* ref){
  */
 + (NSMutableDictionary *)attributesWithConfig:(CTFrameParseConfig *)config
 {
+    // 设置字号
     CGFloat fontSize = config.fontSize;
     CTFontRef fontRef = CTFontCreateWithName((CFStringRef)@"ArialMT", fontSize, NULL);
+    // 设置行距
     CGFloat lineSpacing = config.lineSpace;
     const CFIndex KNumberOfSettings = 3;
     CTParagraphStyleSetting theSettings[KNumberOfSettings] = {
@@ -46,8 +50,8 @@ static CGFloat widthCallback(void* ref){
         {kCTParagraphStyleSpecifierMaximumLineSpacing, sizeof(CGFloat), &lineSpacing},
         {kCTParagraphStyleSpecifierMinimumLineSpacing, sizeof(CGFloat), &lineSpacing}
     };
-    
     CTParagraphStyleRef theParagraphRef = CTParagraphStyleCreate(theSettings, KNumberOfSettings);
+    // 设置文本颜色
     UIColor *textColor = config.textColor;
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -103,7 +107,7 @@ static CGFloat widthCallback(void* ref){
 
 
 /**
- *  3. 根据模板生成CoreTextData
+ *  3. 根据模板(json) 生成CoreTextData
  */
 + (CoreTextData *)parseTemplateFile:(NSString *)path config:(CTFrameParseConfig *)config
 {
@@ -128,7 +132,7 @@ static CGFloat widthCallback(void* ref){
         if ([array isKindOfClass:[NSArray class]]) {
             for (NSDictionary *dict in array) {
                 NSString *type = dict[@"type"];
-                if ([type isEqualToString:@"txt"]) {
+                if ([type isEqualToString:@"txt"]) { // 文本
                     NSAttributedString *as = [self parseAttributedContentFromNSDictionary:dict
                                                                                    config:config];
                     [result appendAttributedString:as];
@@ -140,18 +144,19 @@ static CGFloat widthCallback(void* ref){
                     [imageArray addObject:imageData];
                     
                     // 创建空白占位符, 并且设置他的CTRunDelegate
-                    NSAttributedString *as = [self parseImageDataFromNSDictionary:dict config:config];
+                    NSAttributedString *as = [self parseImageDataFromNSDictionary:dict
+                                                                           config:config];
 
                     [result appendAttributedString:as];
                 }else if ([type isEqualToString:@"link"]){
                     NSUInteger startPos = result.length;
-                    NSAttributedString *as = [self parseAttributedContentFromNSDictionary:dict config:config];
+                    // 创建CoretextLinkData
+                    NSAttributedString *as = [self parseAttributedContentFromNSDictionary:dict      config:config];
                     [result appendAttributedString:as];
                     
-                    // 创建CoretextLinkData
                     NSUInteger length = result.length - startPos;
                     NSRange linkPange = NSMakeRange(startPos, length);
-
+                    
                     CoreTextLinkData *linkData = [[CoreTextLinkData alloc] init];
                     linkData.title = dict[@"content"];
                     linkData.url = dict[@"url"];
@@ -166,7 +171,7 @@ static CGFloat widthCallback(void* ref){
 
 
 
-// 3.2
+// 3.2 设置链接属性文本
 + (NSAttributedString *)parseAttributedContentFromNSDictionary:(NSDictionary *)dict config:(CTFrameParseConfig *)config
 {
     NSMutableDictionary *attributes = [self attributesWithConfig:config];
@@ -187,10 +192,9 @@ static CGFloat widthCallback(void* ref){
     
     NSString *content = dict[@"content"];
     return [[NSAttributedString alloc] initWithString:content attributes:attributes];
-    
 }
 
-// 3.3
+// 3.3 设置颜色
 + (UIColor *)colorFromTemplate:(NSString *)name
 {
     if ([name isEqualToString:@"blue"]) {
@@ -201,14 +205,38 @@ static CGFloat widthCallback(void* ref){
         return [UIColor blackColor];
     }else if ([name isEqualToString:@"yellow"]){
         return [UIColor yellowColor];
-    }else
+    }else if ([name isEqualToString:@"cyanColor"]){
+        return [UIColor cyanColor];
+    }else if ([name isEqualToString:@"darkGrayColor"]){
+        return [UIColor darkGrayColor];
+    }else if ([name isEqualToString:@"whiteColor"]){
+        return [UIColor whiteColor];
+    }else if ([name isEqualToString:@"grayColor"]){
+        return [UIColor grayColor];
+    }else if ([name isEqualToString:@"greenColor"]){
+        return [UIColor greenColor];
+    }else if ([name isEqualToString:@"magentaColor"]){
+        return [UIColor magentaColor];
+    }else if ([name isEqualToString:@"orangeColor"]){
+        return [UIColor orangeColor];
+    }else if ([name isEqualToString:@"purpleColor"]){
+        return [UIColor purpleColor];
+    }else if ([name isEqualToString:@"brownColor"]){
+        return [UIColor brownColor];
+    }else if ([name isEqualToString:@"clearColor"]){
+        return [UIColor clearColor];
+    }
         return nil;
 }
+
 
 // 3.4 生成图片空白的占位符, 并且设置CTRunDelegate信息
 + (NSAttributedString *)parseImageDataFromNSDictionary:(NSDictionary *)dict config:(CTFrameParseConfig *)config
 {
     CTRunDelegateCallbacks callbacks;
+    // memset: void *memset(void *s, int ch, size_t n);
+    // 函数解释：将s中前n个字节 （typedef unsigned int size_t ）用 ch 替换并返回 s 。
+    // 作用: 在一段内存块中填充某个给定的值，它是对较大的结构体或数组进行清零操作的一种最快方法
     memset(&callbacks, 0, sizeof(CTRunDelegateCallbacks));
     callbacks.version = kCTRunDelegateVersion1;
     callbacks.getAscent = ascentCallback;
