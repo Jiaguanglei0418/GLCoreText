@@ -24,13 +24,29 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 #define ANCHOR_TARGET_TAG 1
 #define FONT_HEIGHT  40
 @interface CTDisplayView ()<UIGestureRecognizerDelegate>
-
+/**
+ *  选中文本的开始位置
+ */
 @property (assign, nonatomic) NSInteger selectionStartPosition;
+/**
+ *  选中文本的结束位置
+ */
 @property (assign, nonatomic) NSInteger selectionEndPosition;
+/**
+ *  选中文本的状态
+ */
 @property (assign, nonatomic) CTDisplayViewState state;
+/**
+ *  选中文本 左侧起始图标
+ */
 @property (strong, nonatomic) UIImageView *leftSectionAnchor;
+/**
+ *  选中文本 右侧终止图标
+ */
 @property (strong, nonatomic) UIImageView *rightSectionAnchor;
-
+/**
+ *  放大镜视图
+ */
 @property (strong, nonatomic) CTMagnifiterView *magnifiterView;
 @end
 
@@ -74,8 +90,6 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 }
 
 
-
-
 - (void)setData:(CoreTextData *)data
 {
     _data = data;
@@ -83,7 +97,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     self.state = CTDisplayViewStateNormal;
 }
 
-// 1.
+// 1. 设置 选中位置的图标
 - (void)setupAnchors
 {
     _leftSectionAnchor = [self creatSelectionAnchorWithTop:YES];
@@ -91,7 +105,8 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     [self addSubview:_leftSectionAnchor];
     [self addSubview:_rightSectionAnchor];
 }
-// 1.1
+
+// 1.1 创建 图标视图
 - (UIImageView *)creatSelectionAnchorWithTop:(BOOL)isTop
 {
     UIImage *image = [self cursorWithFontHeight:FONT_HEIGHT isTop:isTop];
@@ -100,9 +115,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     return imageView;
 }
 
-/**
- *  1.2 获取上下文图片
- */
+// 1.2 创建 图标
 - (UIImage *)cursorWithFontHeight:(CGFloat)height isTop:(BOOL)top
 {
     // 22
@@ -131,7 +144,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     return image;
 }
 
-// 1.3
+// 1.3 移除 图标
 - (void)removeSelectionAnchor
 {
     if (_leftSectionAnchor) {
@@ -144,6 +157,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
 }
 
+
 - (void)setState:(CTDisplayViewState)state
 {
     if (_state == state) {
@@ -151,17 +165,17 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
     
     _state = state;
-    if (_state == CTDisplayViewStateNormal) {
+    if (_state == CTDisplayViewStateNormal) {// 正常状态
         _selectionStartPosition = -1;
         _selectionEndPosition = -1;
         [self removeSelectionAnchor];
         [self removeMagnifiterView];
         [self hideMenuController];
-    }else if(_state == CTDisplayViewStateTouching){
+    }else if(_state == CTDisplayViewStateTouching){ // 长按状态
         if (_leftSectionAnchor == nil && _rightSectionAnchor == nil) {
             [self setupAnchors];
         }
-    }else if (_state == CTDisplayViewStateSelecting){
+    }else if (_state == CTDisplayViewStateSelecting){ // 选中状态
         if (_leftSectionAnchor == nil && _rightSectionAnchor == nil) {
             [self setupAnchors];
         }
@@ -172,6 +186,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
     [self setNeedsDisplay];
 }
+
 
 /**
  *  2. 设置点击手势
@@ -266,6 +281,27 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     return NO;
 }
 
+- (void)cut:(id)sender
+{
+    LogRed(@"cut");
+    
+}
+
+- (void)copy:(id)sender
+{
+    LogRed(@"copy");
+}
+
+- (void)paste:(id)sender
+{
+    LogRed(@"paste");
+}
+
+- (void)selectAll:(id)sender
+{
+    LogRed(@"selectAll");
+}
+
 #pragma mark - 显示文本操作菜单
 - (void)showMenuController
 {
@@ -285,7 +321,9 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 
 
 
-// 显示菜单控制器
+/**
+ *  获取 选中文本的 frame
+ */
 - (CGRect)rectForMenuController
 {
     if(_selectionStartPosition < 0 || _selectionEndPosition > self.data.content.length){
@@ -365,6 +403,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     if (self.state == CTDisplayViewStateNormal) {
         return;
     }
+    
     CGPoint point = [pan locationInView:self];
     if (pan.state == UIGestureRecognizerStateBegan) {
         if (_leftSectionAnchor && CGRectContainsPoint(CGRectInset(_leftSectionAnchor.frame, -25, -6), point)) {
@@ -383,12 +422,12 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
         }
         
         if (_leftSectionAnchor.tag == ANCHOR_TARGET_TAG && index < _selectionEndPosition) {
-            LogRed(@"change start position to %ld", index);
+//            LogRed(@"change start position to %ld", index);
             _selectionStartPosition = index;
             self.magnifiterView.touchPoint = point;
             [self hideMenuController];
         }else if (_rightSectionAnchor.tag == ANCHOR_TARGET_TAG){ //  && index > _selectionEndPosition 限制只能往后拖拽
-            LogRed(@"change end position to %ld", index);
+//            LogRed(@"change end position to %ld", index);
             _selectionEndPosition = index;
             self.magnifiterView.touchPoint = point;
             [self hideMenuController];
@@ -422,7 +461,7 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
 }
 
 #pragma mark - drawAnchors
-
+// 画大头针
 - (void)drawAnchors {
     if (_selectionStartPosition < 0 || _selectionEndPosition > self.data.content.length) {
         return;
@@ -520,14 +559,16 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
 }
 
-
+/**
+ *  渲染选中文本
+ */
 - (void)fillSelectionAreaInRect:(CGRect)rect {
     UIColor *bgColor = PPCOLOR_RGB(204, 221, 236);
-//    UIColor *bgColor = [UIColor redColor];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, bgColor.CGColor);
     CGContextFillRect(context, rect);
 }
+
 
 #pragma mark - drawRect
 - (void)drawRect:(CGRect)rect
@@ -563,7 +604,9 @@ typedef NS_ENUM(NSInteger, CTDisplayViewState) {
     }
 }
 
-
+/**
+ *  设置第一相应项  --  在合适的时机弹出 UIMenuViewController
+ */
 - (BOOL)canBecomeFirstResponder
 {
     return YES;
